@@ -1,0 +1,47 @@
+﻿@using Grammophone.Ennoun.Web.Models.Inference
+@model TextRequestModel
+@{
+	ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron cover-background text-light text-shadowed"
+		 style="background-image: url(/images/backgrounds/cons_ink01_red.jpg); background-position-y: -160px; background-repeat: no-repeat;">
+	<h1 class="typography-classic">Ἔννουν</h1>
+	<p>Ancient Greek language services</p>
+</div>
+
+@*<div class="jumbotron text-light text-shadowed"
+			style="background-image: url(/images/backgrounds/textures/tileable-stone-pavement-and-marble-textures-3.jpg);">
+	<h1 class="typography-classic">Ἔννουν</h1>
+	<p>Ancient Greek language services</p>
+</div>*@
+
+<div class="row">
+	<div class="col-md-12">
+		<h2>Intelligent assistance for ancient Greek</h2>
+		<p>
+			This site offers a growing and evolving set of tools for analyzing texts of Ancient Greek. 
+			These tools aim to facilitate those who are learning the language as well as provide
+			help such as dictionary lookup.
+		</p>
+		<p>
+			Currently a first tool of part-of-speech tagging and lemmatization 
+			of supplied ancient Greek sentences is offered, along with dictionary lookup.
+			This is a work in progress and occasionaly there will be errors
+			in the estimation of a sentence. The accuracy will improve over time as 
+			the system evolves.
+			It can be tested via the following form, and it will be shortly available 
+			as an extension for the major browsers.
+		</p>
+	</div>
+</div>
+@Html.Partial("_TextRequestForm", this.Model)
+@section scripts {
+	@Scripts.Render("~/bundles/bootstrap")
+
+	<script>
+			$(function () {
+				$('[data-toggle="popover"]').popover();
+			});
+	</script>
+}

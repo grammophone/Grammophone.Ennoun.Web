@@ -1,0 +1,111 @@
+﻿<div class="modal fade" id="messageBox" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header borderless">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="text-h2 text-centered" id="messageBoxTitle"></div>
+			</div>
+			<div class="text-p text-centered content modal-body" id="messageBoxBody">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-blue btn-normal" type="button" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="warningAlert" class="alert alert-warning alert-dismissible"
+		 style="display: none;">
+	<button type="button" class="close" aria-label="Close"  onclick="$('#warningAlert').fadeOut()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<span class="glyphicon glyphicon-warning-sign"></span>
+	<span id="warningAlertMessage" class="alert-content"></span>
+</div>
+
+<div id="errorAlert" class="alert alert-danger alert-dismissible" role="alert"
+		 style="display: none;">
+	<button type="button" class="close" aria-label="Close" onclick="$('#errorAlert').fadeOut()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<span class="glyphicon glyphicon-remove-circle"></span>
+	<span id="errorAlertMessage" class="alert-content"></span>
+</div>
+
+<div id="successAlert" class="alert alert-success alert-dismissible"
+		 style="display: none;">
+	<button type="button" class="close" aria-label="Close" onclick="$('#successAlert').fadeOut()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<span class="glyphicon glyphicon-ok-circle"></span>
+	<span id="successAlertMessage" class="alert-content"></span>
+</div>
+
+<!--<div class="modal fade" id="confirmationBox" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header borderless">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="text-h2 text-centered" id="messageBoxTitle"></div>
+			</div>
+			<div class="text-p text-centered content modal-body" id="messageBoxBody">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-blue btn-normal" type="button" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>-->
+
+<div class="modal fade confirmation-modal" id="confirmationBox" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header borderless">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="text-h2 text-centered" id="confirmationBoxTitle"></div>
+			</div>
+			<div class="text-p text-centered content modal-body" id="confirmationBoxBody">
+			</div>
+			<div class="flex-content-centered">
+				<button class="btn btn-white btn-normal space-right" type="button" data-dismiss="modal"> No </button>
+				<button id="confirmationBoxAccept" class="btn btn-blue btn-normal" type="button" data-dismiss="modal">Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="promptBox" class="modal fv-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="fv-modal-header">
+				<div class="container-x">
+					<div class="modal-title" id="promptBoxTitle"></div>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+				</div>
+			</div>
+			<div class="fv-modal-body">
+				<!-- Showcase Thumbnail -->
+				<div class="container-x flex-content-centered">
+					<img id="promptBoxImg" class="thumbnail-m" src="" />
+				</div>
+				<!-- Edit title form -->
+				<form class="fullscreen-x" role="form">
+					<div class="form-group" name="innerForm">
+						<div class="text-p-bold space-bottom" id="promptBoxBody"></div>
+						<input type="text"
+									 class="form-control input-s text-blue"
+									 maxlength="38"
+									 required
+									 placeholder="Enter a value" />
+						<label id="promptBoxError" class="label-s text-grey label-s"></label>
+					</div>
+					<div class="wrapper-btn-submit">
+						<button type="submit" class="btn btn-blue btn-normal">
+							Save
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

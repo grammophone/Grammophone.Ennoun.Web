@@ -1,0 +1,38 @@
+﻿@using Grammophone.Ennoun.Web.Models.Inference
+@model TextRequestModel
+@{
+    ViewBag.Title = "Infer";
+}
+
+<h2>Inference</h2>
+<div id="progressIndicator" class="progress progress-message-centered">
+	<div id="progressBar" class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" 
+			 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" 
+			 style="width: 0%">
+		<span class="text-success text-bold">0%</span>
+	</div>
+</div>
+
+<div id="textContainer" class="hidden">@Model.Text</div>
+
+<div id="resultsContainer" style="display: none;">
+	<p>Click on a word below to show information about it or <a href="@Url.Action("Index")">analyze another piece of text</a>.</p>
+	<div class="row">
+
+		<div id="inferredTextContainer" class="col-md-4">
+
+		</div>
+		<div id="analysisContainer" class="col-md-8">
+
+		</div>
+	</div>
+</div>
+
+@section scripts {
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/react")
+	<script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+	<script src="/signalr/hubs"></script>
+	<script src="~/Scripts/Common/CommonView.js"></script>
+	<script src="~/Scripts/Inference/InferView.jsx"></script>
+}

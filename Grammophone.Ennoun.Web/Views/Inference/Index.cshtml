@@ -1,0 +1,16 @@
+﻿@using Grammophone.Ennoun.Web.Models.Inference
+@model TextRequestModel
+@{
+    ViewBag.Title = "Inference";
+}
+<h2>Inference</h2>
+@Html.Partial("_TextRequestForm", this.Model)
+@section scripts {
+	@Scripts.Render("~/bundles/bootstrap")
+
+	<script>
+		$(function () {
+			$('[data-toggle="popover"]').popover();
+		});
+	</script>
+}

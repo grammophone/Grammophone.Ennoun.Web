@@ -1,0 +1,117 @@
+﻿body {
+	padding-top: 51px;
+	padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set padding to keep content from hitting the edges */
+.body-content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+	white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+	max-width: 280px;
+}*/
+
+.cover-background {
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.translucent-light {
+	background-color: #F4F4F4;
+	opacity: 0.88;
+}
+
+.translucent-dark {
+	background-color: #202020;
+	opacity: 0.88;
+}
+
+.box-shadowed {
+	box-shadow: 1px 1px 16px;
+}
+
+.text-shadowed {
+	text-shadow: 2px 2px 3px #333;
+}
+
+.no-padding {
+	padding: 0px;
+}
+
+.padding-top { /* See .body-content above. */
+	padding-top: 15px;
+}
+
+.text-light {
+	color: #F0F0F0;
+}
+
+.background-light {
+	background-color: #F0F0F0;
+}
+
+.text-dark {
+	color: #202020;
+}
+
+.background-dark {
+	background-color: #202020;
+}
+
+.fixed-top {
+	position: fixed;
+	left: 0px; top: 0px;
+	width: 100%;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.typography-classic {
+	font-family: 'Palatino Linotype';
+}
+
+.text-large {
+	font-size: large;
+}
+
+.text-larger {
+	font-size: larger;
+}
+
+.text-largest {
+	font-size: x-large;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.progress-message-centered {
+	position: relative;
+}
+
+.progress-message-centered span {
+	display: block;
+	position: absolute;
+	width: 100%;
+}
+
+.panel > .panel-heading {
+	background-color: #F0E8D4;
+}

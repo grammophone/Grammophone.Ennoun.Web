@@ -1,0 +1,29 @@
+﻿@using Grammophone.Ennoun.Web.Models.Inference
+@model TextRequestModel
+
+@using (Html.BeginForm("Infer", "Inference", FormMethod.Post))
+{
+	<h3>Try some ancient Greek text</h3>
+	<p>
+		Find out the parts of speech of the words, their lemmata and their explanation.
+		<button type="button" class="btn-link" aria-label="warning"
+						role="button"
+						data-toggle="popover"
+						data-trigger="focus"
+						title="Work in progress"
+						data-content="Occasionaly there will be errors in the estimation. The accuracy will improve over time as the system evolves.">
+			<span class="glyphicon glyphicon-warning-sign text-warning" aria-hidden="true"></span>
+		</button>
+	</p>
+	<div class="form-group">
+		<label for="@Html.NameFor(m => m.Text)" class="control-label">Text to be analyzed</label>
+		@Html.TextAreaFor(m => m.Text, new { @class = "form-control", rows = 10, aria_describedby = "text-help" })
+		@Html.ValidationMessageFor(m => m.Text)
+		<p id="text-help" class="help-block">
+			Please include full lower-case ancient Greek sentences with diacritics and terminating punctuation.
+		</p>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-success">Analyze!</button>
+	</div>
+}
