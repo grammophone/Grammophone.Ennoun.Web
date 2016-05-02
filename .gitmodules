@@ -1,6 +1,6 @@
-[submodule "Components/Grammophone.Inference"]
+[submodule "Components/Grammophone.EnnounInference"]
 	path = Components/Grammophone.EnnounInference
-	url = https://github.com/grammophone/Grammophone.Inference.git
+	url = https://github.com/grammophone/Grammophone.EnnounInference.git
 [submodule "Components/Grammophone.DataStreaming"]
 	path = Components/Grammophone.DataStreaming
 	url = https://github.com/grammophone/Grammophone.DataStreaming.git
