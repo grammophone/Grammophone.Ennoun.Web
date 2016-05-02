@@ -314,10 +314,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="images\backgrounds\blurred\27.jpg" />
-    <Content Include="images\backgrounds\blurred\31.jpg" />
-    <Content Include="images\backgrounds\blurred\32.jpg" />
-    <Content Include="images\backgrounds\blurred\36.jpg" />
     <Content Include="images\backgrounds\blurred\abstract\1.jpg" />
     <Content Include="images\backgrounds\blurred\abstract\5.jpg" />
     <Content Include="images\backgrounds\blurred\abstract\7.jpg" />
