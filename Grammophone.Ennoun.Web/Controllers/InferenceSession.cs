@@ -33,6 +33,8 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 		private const double MaximumEditDistance = 1.0;
 
+		private const double LowProbabilityThreshold = 0.05;
+
 		#endregion
 
 		#region Private fields
@@ -52,6 +54,8 @@ namespace Grammophone.Ennoun.Web.Controllers
 		private static IDictionary<string, Lexicon> lexicaByName;
 
 		private static Lexicon defaultLexicon;
+
+		private static readonly IReadOnlyList<TextProcessorStages.ITextProcessorStage> textProcessorStages;
 
 		#endregion
 
@@ -79,6 +83,12 @@ namespace Grammophone.Ennoun.Web.Controllers
 			lazyLanguageProvider =
 				new Lazy<LanguageProvider>(() => EnnounInference.Configuration.InferenceEnvironment.Setup.LanguageProviders[LanguageProviderKey],
 					LazyThreadSafetyMode.ExecutionAndPublication);
+
+			textProcessorStages = new TextProcessorStages.ITextProcessorStage[] 
+			{
+				new TextProcessorStages.HyphenationTextProcessorStage(),
+				new TextProcessorStages.CharacterNormalizationStage()
+			};
 		}
 
 		#endregion
@@ -145,7 +155,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 				try
 				{
-					//await LoadInferenceResourceAsync();
+					await LoadInferenceResourceAsync();
 
 					await LoadLexiconAsync();
 
@@ -175,27 +185,46 @@ namespace Grammophone.Ennoun.Web.Controllers
 		{
 			if (text == null) throw new ArgumentNullException(nameof(text));
 
-			await Task.Delay(200);
+			EnsureEngineStateStarted();
 
-			ReportProgress(20.0);
+			text = ProcessText(text);
 
-			await Task.Delay(200);
+			var languageProvider = inferenceResource.LanguageProvider;
 
-			ReportProgress(40.0);
+			var sentenceBreaker = languageProvider.SentenceBreaker;
 
-			await Task.Delay(200);
+			using (var textReader = new System.IO.StringReader(text))
+			{
+				string[] sentences = sentenceBreaker.SeparateSentences(textReader).ToArray();
 
-			ReportProgress(60.0);
+				var sentenceResponses = new List<SentenceResponseModel>(sentences.Length);
 
-			await Task.Delay(200);
+				double sentencesLength = sentences.Length;
 
-			ReportProgress(80.0);
+				for (int i = 0; i < sentences.Length; i++)
+				{
+					string sentence = sentences[i];
 
-			await Task.Delay(200);
+					await Task.Run(() => 
+					{
+						var sentenceInference = inferenceResource.SentenceClassifier.InferSentence(sentence);
 
-			ReportProgress(100.0);
+						var sentenceResponse = new SentenceResponseModel
+						{
+							SentenceInference = TransferSentenceInferenceModel(sentenceInference),
+							Messages = GetMessagesForSentence(sentence, sentenceInference)
+						};
 
-			return CreateMockSentenceResponse();
+						sentenceResponses.Add(sentenceResponse);
+					});
+
+					double progress = 100.0 * (i + 1) / sentencesLength;
+
+					ReportProgress(progress);
+				}
+
+				return sentenceResponses;
+			}
 		}
 
 		/// <summary>
@@ -209,7 +238,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 		{
 			if (form == null) throw new ArgumentNullException(nameof(form));
 
-			CheckEngineState();
+			EnsureEngineStateStarted();
 
 			return defaultLexicon.GetLemmata(form, MaximumEditDistance);
 		}
@@ -254,6 +283,49 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 		#region Private methods
 
+		private static IList<MessageModel> GetMessagesForSentence(string sentence, SentenceInference sentenceInference)
+		{
+			if (sentence == null) throw new ArgumentNullException(nameof(sentence));
+			if (sentenceInference == null) throw new ArgumentNullException(nameof(sentenceInference));
+
+			var messages = new List<MessageModel>();
+
+			var sentenceBreaker = inferenceResource.LanguageProvider.SentenceBreaker;
+
+			if (sentence.Length > 0)
+			{
+				char lastCharacter = sentence[sentence.Length - 1];
+
+				if (!sentenceBreaker.IsSentenceDelimiter(lastCharacter))
+				{
+					messages.Add(new MessageModel
+					{
+						Level = MessageLevel.Warning,
+						Text = InferenceMessages.SENTENCE_PUNCTUATION_MISSING
+					});
+				}
+
+				if (sentenceInference.Probability == 0.0)
+				{
+					messages.Add(new MessageModel
+					{
+						Level = MessageLevel.Error,
+						Text = InferenceMessages.SENTENCE_IMPOSSIBLE
+					});
+				}
+				else if (sentenceInference.Probability <= LowProbabilityThreshold)
+				{
+					messages.Add(new MessageModel
+					{
+						Level = MessageLevel.Warning,
+						Text = InferenceMessages.SENTENCE_PROBABILITY_LOW
+					});
+				}
+			}
+
+			return messages;
+		}
+
 		private static async Task LoadLexiconAsync()
 		{
 			var languageProvider = GreekLanguageProvider;
@@ -282,21 +354,48 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 		}
 
-		private static async Task LoadInferenceResourceAsync()
+		private static Task LoadInferenceResourceAsync()
 		{
-			var languageProvider = GreekLanguageProvider;
 
-			if (!InferenceEnvironment.InferenceResources.ContainsKey(languageProvider))
+			return Task.Factory.StartNew(() =>
 			{
-				inferenceResource = await InferenceEnvironment.LoadInferenceResourceAsync(languageProvider);
+				var languageProvider = GreekLanguageProvider;
 
-				if (inferenceResource == null)
-					throw new ApplicationException("No inference resource provider is available for the ancient Greek language.");
-			}
-			else
-			{
-				inferenceResource = InferenceEnvironment.InferenceResources[languageProvider];
-			}
+				if (!InferenceEnvironment.InferenceResources.ContainsKey(languageProvider))
+				{
+					Exception exception = null;
+
+					System.Diagnostics.Trace.WriteLine($"Environment.Is64BitProcess = {Environment.Is64BitProcess}");
+
+					// Use low-level thread in order to specify stack size, because the serialized model has deep recursion.
+					var loaderThread = new Thread(() =>
+					{
+						try
+						{
+							inferenceResource = InferenceEnvironment.LoadInferenceResource(languageProvider);
+
+							if (inferenceResource == null)
+								throw new ApplicationException("No inference resource provider is available for the ancient Greek language.");
+						}
+						catch (Exception ex)
+						{
+							exception = ex;
+						}
+					},
+					0x1000000 /* 16MB stack */);
+
+					loaderThread.Start();
+
+					loaderThread.Join();
+
+					if (exception != null) throw exception;
+				}
+				else
+				{
+					inferenceResource = InferenceEnvironment.InferenceResources[languageProvider];
+				}
+			}, TaskCreationOptions.LongRunning);
+
 		}
 
 		/// <summary>
@@ -314,7 +413,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 		private static TagModel TransferTagModel(Tag tag)
 		{
-			if (tag == null) throw new ArgumentNullException(nameof(tag));
+			if (tag == null) return null;
 
 			return new TagModel
 			{
@@ -330,8 +429,8 @@ namespace Grammophone.Ennoun.Web.Controllers
 			return new LemmaInferenceModel
 			{
 				Form = lemmaInference.Form,
-				Tag = TransferTagModel(lemmaInference.Tag),
-				Lemma = lemmaInference.Lemma
+				Tag = TransferTagModel(lemmaInference?.Tag),
+				Lemma = lemmaInference?.Lemma
 			};
 		}
 
@@ -346,21 +445,18 @@ namespace Grammophone.Ennoun.Web.Controllers
 			};
 		}
 
-		private static SentenceInferenceModel TransferSentenceInferenceModel(IEnumerable<string> words, SentenceInference sentenceInference)
+		private static SentenceInferenceModel TransferSentenceInferenceModel(SentenceInference sentenceInference)
 		{
 			if (sentenceInference == null) throw new ArgumentNullException(nameof(sentenceInference));
-			if (words == null) throw new ArgumentNullException(nameof(words));
-
-			if (sentenceInference.LemmaInferences == null) return TransferImpossibleSentenceInferenceModel(words);
 
 			return new SentenceInferenceModel
 			{
 				Probability = sentenceInference.Probability,
-				LemmaInferences = sentenceInference.LemmaInferences?.Select(li => TransferLemmaInferenceModel(li))
+				LemmaInferences = sentenceInference.LemmaInferences.Select(li => TransferLemmaInferenceModel(li))
 			};
 		}
 
-		private static void CheckEngineState()
+		private static void EnsureEngineStateStarted()
 		{
 			switch (EngineState)
 			{
@@ -371,6 +467,18 @@ namespace Grammophone.Ennoun.Web.Controllers
 				case InferenceEngineState.Error:
 					throw new UserException("There has been an error while starting the inference engine.");
 			}
+		}
+
+		private static string ProcessText(string text)
+		{
+			if (text == null) return null;
+
+			foreach (var stage in textProcessorStages)
+			{
+				text = stage.Process(text);
+			}
+
+			return text;
 		}
 
 		#region Mocking methods
@@ -386,8 +494,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 						new MessageModel { Text = "Looks like a Greek sentence.", Level = MessageLevel.Information },
 						new MessageModel { Text = "Should include final punctuation.", Level = MessageLevel.Warning }
 					},
-					SentenceInference = TransferSentenceInferenceModel(
-						new string[] { "ἐν", "ἀρχῇ", "ἦν", "ὁ", "Λόγος" }, 
+					SentenceInference = TransferSentenceInferenceModel( 
 						CreateMockSentenceInference()
 					)
 				}

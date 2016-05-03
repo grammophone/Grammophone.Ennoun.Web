@@ -272,7 +272,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\InferenceApiController.cs" />
     <Compile Include="Controllers\InferenceController.cs" />
+    <Compile Include="Controllers\InferenceMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InferenceMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\InferenceSession.cs" />
+    <Compile Include="Controllers\TextProcessorStages\CharacterNormalizationStage.cs" />
+    <Compile Include="Controllers\TextProcessorStages\HyphenationTextProcessorStage.cs" />
+    <Compile Include="Controllers\TextProcessorStages\ITextProcessorStage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -513,6 +521,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controllers\InferenceMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InferenceMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\Inference\TextRequestResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TextRequestResources.Designer.cs</LastGenOutput>

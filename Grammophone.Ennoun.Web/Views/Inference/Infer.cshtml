@@ -28,6 +28,10 @@
 	</div>
 </div>
 
+<div id="errorPromptContainer" class="text-danger" style="display: none">
+	<p>Unfortunately, we could not process your text. <a href="@Url.Action("Index")">Try again</a>.</p>
+</div>
+
 @section scripts {
 	@Scripts.Render("~/bundles/bootstrap")
 	@Scripts.Render("~/bundles/react")

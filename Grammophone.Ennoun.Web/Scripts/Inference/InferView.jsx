@@ -262,6 +262,14 @@ var inferView = (function () {
 
 			var lexiconSearchForm = lemmaInference.Lemma ? lemmaInference.Lemma : lemmaInference.Form;
 
+			var lexiconElement = null;
+
+			// Only show lexicon if the tag is not special, like punctuation.
+			// Special tags have names within brackets.
+			if (lemmaInference.Tag.Type.indexOf('[') > -1) {
+				lexiconElement = <LexiconLemmata form={lexiconSearchForm }></LexiconLemmata>;
+			}
+
 			return (
 				<div className="panel panel-default">
 					<div className="panel-heading typography-classic text-largest bg-info">
@@ -289,7 +297,7 @@ var inferView = (function () {
 						</tbody>
 					</table>
 					<div className="panel-body" id="lexiconContainer">
-						<LexiconLemmata form={lexiconSearchForm}></LexiconLemmata>
+						{lexiconElement}
 					</div>
 				</div>
 			);
@@ -391,6 +399,10 @@ var inferView = (function () {
 				dataType: "json",
 				error: function (jqXHR, textStatus, errorThrown) {
 					commonView.errorAlertForAjaxResult(jqXHR);
+
+					$("#progressIndicator").fadeOut(1000, function () {
+						$("#errorPromptContainer").fadeIn(1000);
+					});
 				},
 				success: function (data, textStatus, jqXHR) {
 					sentenceResponses = data;
