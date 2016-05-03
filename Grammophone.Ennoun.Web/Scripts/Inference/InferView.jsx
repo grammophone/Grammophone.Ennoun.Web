@@ -233,7 +233,30 @@ var inferView = (function () {
 			return this.getEmptyState();
 		},
 
+		initializePropertiesTable() {
+			$('[data-toggle="popover"]').popover();
+		},
+
+		componentDidUpdate: function () {
+			this.initializePropertiesTable();
+		},
+
+		componentDidMount: function () {
+			this.initializePropertiesTable();
+		},
+
 		render: function () {
+
+			var warningElement = (
+				<button type="button" className="btn-link" aria-label="warning"
+								role="button"
+								data-toggle="popover"
+								data-trigger="focus"
+								title="Work in progress"
+								data-content="Occasionaly there will be errors in the estimation. The accuracy will improve over time as the system evolves.">
+					<span className="glyphicon glyphicon-warning-sign text-danger" aria-hidden="true"></span>
+				</button>
+			);
 
 			var inflectionsHeaderElement = null, inflectionsBody = null;
 
@@ -242,7 +265,7 @@ var inferView = (function () {
 			if (lemmaInference.Tag && lemmaInference.Tag.Inflections.length > 0) {
 				inflectionsHeaderElement =
 					<tr>
-						<th colSpan="2">Inflection</th>
+						<th colSpan="2">Inflection {warningElement}</th>
 					</tr>;
 
 				inflectionsBody =
@@ -266,7 +289,7 @@ var inferView = (function () {
 
 			// Only show lexicon if the tag is not special, like punctuation.
 			// Special tags have names within brackets.
-			if (lemmaInference.Tag.Type.indexOf('[') > -1) {
+			if (lemmaInference.Tag.Type.indexOf('[') === -1) {
 				lexiconElement = <LexiconLemmata form={lexiconSearchForm }></LexiconLemmata>;
 			}
 
@@ -275,13 +298,15 @@ var inferView = (function () {
 					<div className="panel-heading typography-classic text-largest bg-info">
 						{lemmaInference.Form}
 					</div>
-					<table className="table">
+					<table id="analysisTable" className="table">
 						<tbody>
 							<tr>
-								<th colSpan="2">Basic properties</th>
+								<th colSpan="2">Basic properties {warningElement}</th>
 							</tr>
 							<tr>
-								<td style={{ width: "14em" }}>Part-of-speech</td>
+								<td style={{ width: "14em" }}>
+									Part-of-speech
+								</td>
 								<td>{lemmaInference.Tag ? lemmaInference.Tag.Type: "[not found]"}</td>
 							</tr>
 							<tr>
@@ -290,7 +315,7 @@ var inferView = (function () {
 							</tr>
 							<tr className={indicatingClass}>
 								<td>Sentence probability</td>
-								<td>{this.props.probability}</td>
+								<td>{this.props.probability.toFixed(2)}</td>
 							</tr>
 							{inflectionsHeaderElement}
 							{inflectionsBody}
@@ -369,7 +394,7 @@ var inferView = (function () {
 		},
 		render: function () {
 			return (
-				<div className="well typography-classic text-large">
+				<div className="well typography-classic text-large text-primary">
 					{this.state.sentenceResponses.map(function (sentenceResponse) {
 						return <InferredSentence sentenceInference={sentenceResponse.SentenceInference}></InferredSentence>;
 					})}
@@ -385,7 +410,7 @@ var inferView = (function () {
 		var inferenceHub = $.connection.inferenceHub;
 
 		inferenceHub.client.SetProgress = function (percentage) {
-			commonView.setProgressBarValue("#progressBar", percentage);
+			commonView.setProgressBarValue("#progressBar", percentage.toFixed(0));
 		}
 
 		$.connection.hub.start().done(function () {
