@@ -234,7 +234,7 @@ var inferView = (function () {
 		},
 
 		initializePropertiesTable() {
-			$('[data-toggle="popover"]').popover();
+			$('#propertiesContainer [data-toggle="popover"]').popover();
 		},
 
 		componentDidUpdate: function () {
@@ -274,15 +274,6 @@ var inferView = (function () {
 					});
 			}
 
-			var indicatingClass = null;
-
-			if (this.props.probability < 0.1) // TODO: Tune this.
-				indicatingClass = "danger";
-			else if (this.props.probability < 0.2) // TODO: Tune this.
-				indicatingClass = "warning";
-			else
-				indicatingClass = "success";
-
 			var lexiconSearchForm = lemmaInference.Lemma ? lemmaInference.Lemma : lemmaInference.Form;
 
 			var lexiconElement = null;
@@ -320,37 +311,33 @@ var inferView = (function () {
 			return (
 				<div>
 					{messagesElement}
-				<div className="panel panel-default">
-					<div className="panel-heading typography-classic text-largest bg-info">
-						{lemmaInference.Form}
+					<div id="propertiesContainer" className="panel panel-default">
+						<div className="panel-heading typography-classic text-largest bg-info">
+							{lemmaInference.Form}
+						</div>
+						<table id="analysisTable" className="table">
+							<tbody>
+								<tr>
+									<th colSpan="2">Basic properties {warningElement}</th>
+								</tr>
+								<tr>
+									<td style={{ width: "14em" }}>
+										Part-of-speech
+									</td>
+									<td>{lemmaInference.Tag ? lemmaInference.Tag.Type: "[not found]"}</td>
+								</tr>
+								<tr>
+									<td>Estimated lemma</td>
+									<td>{lemmaInference.Lemma ? lemmaInference.Lemma : "[not found]"}</td>
+								</tr>
+								{inflectionsHeaderElement}
+								{inflectionsBody}
+							</tbody>
+						</table>
+						<div className="panel-body" id="lexiconContainer">
+							{lexiconElement}
+						</div>
 					</div>
-					<table id="analysisTable" className="table">
-						<tbody>
-							<tr>
-								<th colSpan="2">Basic properties {warningElement}</th>
-							</tr>
-							<tr>
-								<td style={{ width: "14em" }}>
-									Part-of-speech
-								</td>
-								<td>{lemmaInference.Tag ? lemmaInference.Tag.Type: "[not found]"}</td>
-							</tr>
-							<tr>
-								<td>Estimated lemma</td>
-								<td>{lemmaInference.Lemma ? lemmaInference.Lemma : "[not found]"}</td>
-							</tr>
-							<tr className={indicatingClass}>
-								<td>Sentence probability</td>
-								<td>{this.props.probability.toFixed(2)}</td>
-							</tr>
-							{inflectionsHeaderElement}
-							{inflectionsBody}
-						</tbody>
-					</table>
-					<div className="panel-body" id="lexiconContainer">
-						{lexiconElement}
-					</div>
-				</div>
 				</div>
 			);
 		}

@@ -305,22 +305,6 @@ namespace Grammophone.Ennoun.Web.Controllers
 					});
 				}
 
-				if (sentenceInference.Probability == 0.0)
-				{
-					messages.Add(new MessageModel
-					{
-						Level = MessageLevel.Error,
-						Text = InferenceMessages.SENTENCE_IMPOSSIBLE
-					});
-				}
-				else if (sentenceInference.Probability <= LowProbabilityThreshold)
-				{
-					messages.Add(new MessageModel
-					{
-						Level = MessageLevel.Warning,
-						Text = InferenceMessages.SENTENCE_PROBABILITY_LOW
-					});
-				}
 			}
 
 			return messages;
