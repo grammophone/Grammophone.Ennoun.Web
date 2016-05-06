@@ -31,7 +31,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 		private const string DefaultLexiconName = "Liddell-Scott";
 
-		private const double MaximumEditDistance = 1.0;
+		private const double MaximumEditDistance = 0.0;
 
 		private const double LowProbabilityThreshold = 0.05;
 
@@ -81,13 +81,13 @@ namespace Grammophone.Ennoun.Web.Controllers
 		static InferenceSession()
 		{
 			lazyLanguageProvider =
-				new Lazy<LanguageProvider>(() => EnnounInference.Configuration.InferenceEnvironment.Setup.LanguageProviders[LanguageProviderKey],
+				new Lazy<LanguageProvider>(() => InferenceEnvironment.Setup.LanguageProviders[LanguageProviderKey],
 					LazyThreadSafetyMode.ExecutionAndPublication);
 
 			textProcessorStages = new TextProcessorStages.ITextProcessorStage[] 
 			{
-				new TextProcessorStages.HyphenationTextProcessorStage(),
-				new TextProcessorStages.CharacterNormalizationStage()
+				new TextProcessorStages.CharacterNormalizationStage(),
+				new TextProcessorStages.HyphenationTextProcessorStage()
 			};
 		}
 
@@ -426,11 +426,14 @@ namespace Grammophone.Ennoun.Web.Controllers
 		{
 			if (lemmaInference == null) throw new ArgumentNullException(nameof(lemmaInference));
 
+			var lexiconLemmata = defaultLexicon.GetLemmata(lemmaInference.Lemma ?? lemmaInference.Form, MaximumEditDistance);
+
 			return new LemmaInferenceModel
 			{
 				Form = lemmaInference.Form,
 				Tag = TransferTagModel(lemmaInference?.Tag),
-				Lemma = lemmaInference?.Lemma
+				Lemma = lemmaInference?.Lemma,
+				MinimumLexiconDistance = lexiconLemmata.Count > 0 ? lexiconLemmata.Min(l => l.Distance) : -1.0
 			};
 		}
 

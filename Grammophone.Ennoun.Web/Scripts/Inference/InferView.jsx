@@ -293,7 +293,33 @@ var inferView = (function () {
 				lexiconElement = <LexiconLemmata form={lexiconSearchForm }></LexiconLemmata>;
 			}
 
+			var messagesElement = null;
+
+			if (this.props.messages && this.props.messages.length) {
+				messagesElement = (
+					<div>
+						{this.props.messages.map(function (message) {
+							switch (message.Level) {
+								case "Information":
+									return <div className="alert alert-info">{message.Text}</div>;
+
+								case "Warning":
+									return <div className="alert alert-warning">{message.Text}</div>;
+
+								case "Error":
+									return <div className="alert alert-danger">{message.Text}</div>;
+
+								default:
+									return null;
+							}
+						})}
+					</div>
+				);
+			}
+
 			return (
+				<div>
+					{messagesElement}
 				<div className="panel panel-default">
 					<div className="panel-heading typography-classic text-largest bg-info">
 						{lemmaInference.Form}
@@ -325,6 +351,7 @@ var inferView = (function () {
 						{lexiconElement}
 					</div>
 				</div>
+				</div>
 			);
 		}
 	});
@@ -351,7 +378,8 @@ var inferView = (function () {
 
 			ReactDOM.render(
 				<InferredLemma lemmaInference={this.props.lemmaInference} 
-											 probability={this.props.probability}></InferredLemma>,
+											 probability={this.props.probability}
+											 messages={this.props.messages}></InferredLemma>,
 				analysisContainer);
 
 			selectedWord = this;
@@ -362,11 +390,16 @@ var inferView = (function () {
 			this.setState(this.state);
 		},
 		render: function () {
-			var cssClass = this.state.selected ? "bg-info clickable" : "clickable";
+			if (this.props.lemmaInference.MinimumLexiconDistance >= 0.0) {
+				var cssClass = this.state.selected ? "bg-info clickable text-primary" : "clickable text-primary";
 
-			return (
-				<span><span onClick={this.onSelect} className={cssClass}>{this.props.lemmaInference.Form}</span> </span>
-			);
+				return (
+					<span><span onClick={this.onSelect} className={cssClass }>{this.props.lemmaInference.Form}</span> </span>
+				);
+			}
+			else {
+				return <span>{this.props.lemmaInference.Form} </span>
+			}
 		}
 	});
 
@@ -376,11 +409,14 @@ var inferView = (function () {
 			var dis = this;
 
 			return (
-				<div>
+				<span>
 					{this.props.sentenceInference.LemmaInferences.map(function (lemmaInference) {
-						return (<InferredWord lemmaInference={lemmaInference} probability={dis.props.sentenceInference.Probability}></InferredWord>);
+						return (
+							<InferredWord lemmaInference={lemmaInference} 
+														probability={dis.props.sentenceInference.Probability}
+														messages={dis.props.messages}></InferredWord>);
 					})}
-				</div>
+				</span>
 			);
 		}
 	});
@@ -394,9 +430,10 @@ var inferView = (function () {
 		},
 		render: function () {
 			return (
-				<div className="well typography-classic text-large text-primary">
+				<div className="well typography-classic text-large">
 					{this.state.sentenceResponses.map(function (sentenceResponse) {
-						return <InferredSentence sentenceInference={sentenceResponse.SentenceInference}></InferredSentence>;
+						return (<InferredSentence sentenceInference={sentenceResponse.SentenceInference}
+																			messages={sentenceResponse.Messages}></InferredSentence>);
 					})}
 				</div>
 			);

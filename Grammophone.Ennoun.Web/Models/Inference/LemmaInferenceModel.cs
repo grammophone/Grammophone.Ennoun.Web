@@ -25,5 +25,11 @@ namespace Grammophone.Ennoun.Web.Models.Inference
 		/// depending on LanguageProvider.
 		/// </summary>
 		public string Lemma { get; set; }
+
+		/// <summary>
+		/// The minimum distance of the <see cref="Lemma"/> from the lexicon entries.
+		/// The value -1.0 signifies 'far away from all'.
+		/// </summary>
+		public double MinimumLexiconDistance { get; set; } = -1.0;
 	}
 }
