@@ -1,11 +1,11 @@
 ﻿body {
-	padding-top: 51px;
 	padding-bottom: 20px;
 }
 
 /* Wrapping element */
 /* Set padding to keep content from hitting the edges */
 .body-content {
+	padding-top: 51px;
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -114,4 +114,13 @@ textarea {
 
 .panel > .panel-heading {
 	background-color: #F0E8D4;
+}
+
+/* Fix bug in bootstrap */
+.navbar-right {
+	margin-right: 0px;
+}
+
+.navbar-form.navbar-right {
+	margin-right: -15px;
 }
