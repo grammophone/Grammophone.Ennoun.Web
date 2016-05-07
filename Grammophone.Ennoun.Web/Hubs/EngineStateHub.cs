@@ -11,12 +11,5 @@ namespace Grammophone.Ennoun.Web.Hubs
 	/// </summary>
 	public class EngineStateHub : Hub<IEngineStateHub>
 	{
-		/// <summary>
-		/// Get the current state of the inference engine.
-		/// </summary>
-		public Controllers.InferenceEngineState GetEngineState()
-		{
-			return Controllers.InferenceSession.EngineState;
-		}
 	}
 }
