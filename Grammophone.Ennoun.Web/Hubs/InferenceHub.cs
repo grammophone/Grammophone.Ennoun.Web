@@ -6,10 +6,10 @@ using Microsoft.AspNet.SignalR;
 
 namespace Grammophone.Ennoun.Web.Hubs
 {
+	/// <summary>
+	/// Real-time inference progress hub.
+	/// </summary>
 	public class InferenceHub : Hub<IInferenceHub>
 	{
-		public void Test()
-		{
-		}
 	}
 }

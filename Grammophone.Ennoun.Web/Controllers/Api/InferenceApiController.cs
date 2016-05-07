@@ -106,6 +106,13 @@ namespace Grammophone.Ennoun.Web.Controllers.Api
 			}
 		}
 
+		[HttpGet]
+		[Route("EngineState")]
+		public InferenceEngineState GetEngineState()
+		{
+			return InferenceSession.EngineState;
+		}
+
 		#endregion
 
 		#region Private methods

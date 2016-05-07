@@ -52,6 +52,10 @@ textarea {
 	padding: 0px;
 }
 
+.no-border {
+	border-width: 0px;
+}
+
 .padding-top { /* See .body-content above. */
 	padding-top: 15px;
 }

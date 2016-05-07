@@ -151,6 +151,11 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			if (currentEngineState == InferenceEngineState.NotStarted)
 			{
+				GlobalHost.ConnectionManager.GetHubContext<EngineStateHub, IEngineStateHub>();
+
+				var lazyEngineStateHubContext = 
+					new Lazy<IHubContext<IEngineStateHub>>(() => GlobalHost.ConnectionManager.GetHubContext<EngineStateHub, IEngineStateHub>(), true);
+
 				engineState = (int)InferenceEngineState.Starting;
 
 				try
@@ -160,10 +165,12 @@ namespace Grammophone.Ennoun.Web.Controllers
 					await LoadLexiconAsync();
 
 					engineState = (int)InferenceEngineState.Started;
+					lazyEngineStateHubContext.Value.Clients.All.SetEngineState(InferenceEngineState.Started);
 				}
 				catch
 				{
 					engineState = (int)InferenceEngineState.Error;
+					lazyEngineStateHubContext.Value.Clients.All.SetEngineState(InferenceEngineState.Error);
 					throw;
 				}
 			}

@@ -266,6 +266,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.SignalR.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\BaseApiController.cs" />
@@ -284,6 +285,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\EngineStateHub.cs" />
+    <Compile Include="Hubs\IEngineStateHub.cs" />
     <Compile Include="Hubs\IInferenceHub.cs" />
     <Compile Include="Hubs\InferenceHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -363,6 +366,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\Common\LayoutView.js" />
     <Content Include="Scripts\Inference\InferView.jsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />

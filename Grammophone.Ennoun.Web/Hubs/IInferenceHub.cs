@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Grammophone.Ennoun.Web.Hubs
 {
 	/// <summary>
-	/// Methods exposed by the inference hub.
+	/// Methods exposed by the inference clients.
 	/// </summary>
 	public interface IInferenceHub
 	{

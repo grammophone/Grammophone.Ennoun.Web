@@ -21,6 +21,10 @@ namespace Grammophone.Ennoun.Web
 				"~/Scripts/react-dom-15*"
 				));
 
+			bundles.Add(new ScriptBundle("~/bundles/common")
+				.Include("~/Scripts/Common/CommonView.js", "~/Scripts/Common/LayoutView.js")
+			);
+
 			// Use the development version of Modernizr to develop with and learn from. Then, when you're
 			// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 			bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

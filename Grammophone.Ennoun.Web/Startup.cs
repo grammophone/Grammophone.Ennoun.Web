@@ -10,7 +10,7 @@ namespace Grammophone.Ennoun.Web
 		{
 			ConfigureAuth(app);
 
-			app.MapSignalR();
+			ConfigureSignalR(app);
 
 			// Start the inference engine asynchronously.
 			Controllers.InferenceSession.StartEngineAsync().LogExceptions();
