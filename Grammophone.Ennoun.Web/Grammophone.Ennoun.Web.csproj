@@ -316,7 +316,7 @@
     <Compile Include="TaskHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\LiddellScott.xml" />
+    <Content Include="Configuration\Perseus_text_1999.04.0058.e.xml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

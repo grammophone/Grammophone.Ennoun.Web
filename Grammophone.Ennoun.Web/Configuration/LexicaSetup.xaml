@@ -18,7 +18,7 @@
 												 Name="Liddell-Scott" 
 												 Description="An Intermediate Greek-English Lexicon">
 			<ls:LexiconSourceSet.Sources>
-				<gl:PerseusLexiconSource  SourceFilename="Configuration/LiddellScott.xml" />
+				<gl:PerseusLexiconSource  SourceFilename="Configuration/IntermediateLiddellScott.xml" />
 			</ls:LexiconSourceSet.Sources>
 		</ls:LexiconSourceSet>
 
