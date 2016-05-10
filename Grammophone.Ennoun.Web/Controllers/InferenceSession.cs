@@ -460,10 +460,10 @@ namespace Grammophone.Ennoun.Web.Controllers
 			{
 				case InferenceEngineState.NotStarted:
 				case InferenceEngineState.Starting:
-					throw new UserException("The inference engine has not yet started. Please try after 10 minutes.");
+					throw new UserException(InferenceMessages.ENGINE_NOT_YET_STARTED);
 
 				case InferenceEngineState.Error:
-					throw new UserException("There has been an error while starting the inference engine.");
+					throw new UserException(InferenceMessages.ENGINE_LOADING_ERROR);
 			}
 		}
 

@@ -61,6 +61,24 @@ namespace Grammophone.Ennoun.Web.Controllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There has been an error while starting the inference engine. Infernce will not be possible..
+        /// </summary>
+        internal static string ENGINE_LOADING_ERROR {
+            get {
+                return ResourceManager.GetString("ENGINE_LOADING_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The inference engine has not yet started. Please wait a few minutes until the upper right engine status turns into a green OK sign..
+        /// </summary>
+        internal static string ENGINE_NOT_YET_STARTED {
+            get {
+                return ResourceManager.GetString("ENGINE_NOT_YET_STARTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This doesn&apos;t seem a greek sentence. No inference is performed..
         /// </summary>
         internal static string SENTENCE_IMPOSSIBLE {

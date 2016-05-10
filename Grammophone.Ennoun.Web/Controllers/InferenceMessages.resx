@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ENGINE_LOADING_ERROR" xml:space="preserve">
+    <value>There has been an error while starting the inference engine. Infernce will not be possible.</value>
+  </data>
+  <data name="ENGINE_NOT_YET_STARTED" xml:space="preserve">
+    <value>The inference engine has not yet started. Please wait a few minutes until the upper right engine status turns into a green OK sign.</value>
+  </data>
   <data name="SENTENCE_IMPOSSIBLE" xml:space="preserve">
     <value>This doesn't seem a greek sentence. No inference is performed.</value>
   </data>
