@@ -71,7 +71,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			this.lazyInferenceHubContext = 
 				new Lazy<IHubContext<IInferenceHub>>(() => GlobalHost.ConnectionManager.GetHubContext<InferenceHub, IInferenceHub>(),
-					LazyThreadSafetyMode.None);
+					LazyThreadSafetyMode.ExecutionAndPublication);
 
 		}
 
@@ -86,6 +86,7 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			textProcessorStages = new TextProcessorStages.ITextProcessorStage[] 
 			{
+				new TextProcessorStages.LineFeedRemovalStage(),
 				new TextProcessorStages.CharacterNormalizationStage(),
 				new TextProcessorStages.HyphenationTextProcessorStage()
 			};
@@ -200,38 +201,41 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			var sentenceBreaker = languageProvider.SentenceBreaker;
 
-			using (var textReader = new System.IO.StringReader(text))
+			return await Task.Run(() =>
 			{
-				string[] sentences = sentenceBreaker.SeparateSentences(textReader).ToArray();
-
-				var sentenceResponses = new List<SentenceResponseModel>(sentences.Length);
-
-				double sentencesLength = sentences.Length;
-
-				for (int i = 0; i < sentences.Length; i++)
+				using (var textReader = new System.IO.StringReader(text))
 				{
-					string sentence = sentences[i];
+					string[] sentences = sentenceBreaker.SeparateSentences(textReader).ToArray();
 
-					await Task.Run(() => 
+					var sentenceResponses = new SentenceResponseModel[sentences.Length];
+
+					double sentencesLength = sentences.Length;
+
+					int completedItemsNumber = 0;
+
+					System.Threading.Tasks.Parallel.For(0, sentences.Length, i =>
 					{
+						string sentence = sentences[i];
+
 						var sentenceInference = inferenceResource.SentenceClassifier.InferSentence(sentence);
 
-						var sentenceResponse = new SentenceResponseModel
+						sentenceResponses[i] = new SentenceResponseModel
 						{
 							SentenceInference = TransferSentenceInferenceModel(sentenceInference),
 							Messages = GetMessagesForSentence(sentence, sentenceInference)
 						};
 
-						sentenceResponses.Add(sentenceResponse);
+						int currentCompletedItemsNumber = Interlocked.Increment(ref completedItemsNumber);
+
+						double progress = 100.0 * currentCompletedItemsNumber / sentencesLength;
+
+						ReportProgress(progress);
 					});
 
-					double progress = 100.0 * (i + 1) / sentencesLength;
-
-					ReportProgress(progress);
+					return sentenceResponses;
 				}
+			});
 
-				return sentenceResponses;
-			}
 		}
 
 		/// <summary>

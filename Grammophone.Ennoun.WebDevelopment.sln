@@ -48,10 +48,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammophone.EnnounInference", "Components\Grammophone.EnnounInference\Grammophone.EnnounInference.csproj", "{9A37C026-9496-427B-87CC-B59E7A9D92E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA3A2DAC-957D-4DAC-87D2-2F0E1EB47BF6}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammophone.Ennoun.Web", "Grammophone.Ennoun.Web\Grammophone.Ennoun.Web.csproj", "{414CED37-4D58-49C6-AD2C-79BEB438E7CC}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
