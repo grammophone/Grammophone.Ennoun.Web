@@ -9,6 +9,9 @@ should be placed in folder `\Ennoun Training` of the drive where the web applica
 This application requires 64 bits and a minimum memory of 12GB RAM for a satisfactory trained model.
 Please [enable 64 bits when debugging with IIS express](https://blogs.msdn.microsoft.com/rob/2013/11/14/debugging-vs2013-websites-using-64-bit-iis-express/), as this is not the default.
 
+The Application Insights instrumentation key is specified in the `AppSettings` section of `Web.Config` under the `ApplicationInsightsKey` entry.
+You can override it in target deployments without changing the `Web.Config`, using the standard management tools of IIS or Azure Web Applications.
+
 Please setup IIS so as not to recycle the application, otherwise recycling will cause the trained model to be loaded again resulting to 3 minutes of not accepting inference requests.
 
 The repository contains submodules, so make sure you clone recursively.
