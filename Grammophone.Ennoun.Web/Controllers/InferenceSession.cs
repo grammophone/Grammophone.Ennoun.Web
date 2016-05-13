@@ -86,9 +86,9 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			textProcessorStages = new TextProcessorStages.ITextProcessorStage[] 
 			{
-				new TextProcessorStages.LineFeedRemovalStage(),
 				new TextProcessorStages.CharacterNormalizationStage(),
-				new TextProcessorStages.HyphenationTextProcessorStage()
+				new TextProcessorStages.HyphenationTextProcessorStage(),
+				new TextProcessorStages.LineFeedRemovalStage(),
 			};
 		}
 
