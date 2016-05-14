@@ -322,7 +322,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -369,6 +368,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\Common\LayoutView.js" />
     <Content Include="Scripts\Inference\InferView.jsx" />
+    <Content Include="favicon.ico" />
     <None Include="Properties\PublishProfiles\Local IIS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
