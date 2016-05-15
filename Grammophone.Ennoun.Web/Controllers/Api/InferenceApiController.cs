@@ -24,38 +24,6 @@ namespace Grammophone.Ennoun.Web.Controllers.Api
 	{
 		#region Operations
 
-		// GET: api/InferenceApi
-		[Route("")]
-		public IEnumerable<string> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
-
-		// GET: api/InferenceApi/5
-		[Route("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
-
-		// POST: api/InferenceApi
-		[Route("")]
-		public void Post([FromBody]string value)
-		{
-		}
-
-		// PUT: api/InferenceApi/5
-		[Route("{id}")]
-		public void Put(int id, [FromBody]string value)
-		{
-		}
-
-		// DELETE: api/InferenceApi/5
-		[Route("{id}")]
-		public void Delete(int id)
-		{
-		}
-
 		[HttpPost]
 		[Route("Infer")]
 		public async Task<IList<SentenceResponseModel>> InferAsync([FromBody]TextRequestModel textRequest)
