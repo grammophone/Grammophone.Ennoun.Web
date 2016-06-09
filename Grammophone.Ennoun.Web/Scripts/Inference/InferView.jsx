@@ -315,6 +315,9 @@ var inferView = (function () {
 						<div className="panel-heading typography-classic text-largest bg-info">
 							{lemmaInference.Form}
 						</div>
+						<div className="panel-body" id="lexiconContainer">
+							{lexiconElement}
+						</div>
 						<table id="analysisTable" className="table">
 							<tbody>
 								<tr>
@@ -334,9 +337,6 @@ var inferView = (function () {
 								{inflectionsBody}
 							</tbody>
 						</table>
-						<div className="panel-body" id="lexiconContainer">
-							{lexiconElement}
-						</div>
 					</div>
 				</div>
 			);
