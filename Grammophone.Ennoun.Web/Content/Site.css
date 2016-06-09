@@ -1,11 +1,7 @@
-﻿body {
-	padding-bottom: 20px;
-}
-
-/* Wrapping element */
+﻿/* Wrapping element */
 /* Set padding to keep content from hitting the edges */
 .body-content {
-	padding-top: 51px;
+	padding-top: 15px;
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -57,7 +53,7 @@ textarea {
 }
 
 .padding-top { /* See .body-content above. */
-	padding-top: 15px;
+	padding-top: 51px;
 }
 
 .text-light {

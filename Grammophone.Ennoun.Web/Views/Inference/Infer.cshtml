@@ -1,7 +1,9 @@
 ﻿@using Grammophone.Ennoun.Web.Models.Inference
 @model TextRequestModel
 @{
-    ViewBag.Title = "Infer";
+	ViewBag.Title = "Infer";
+
+	bool isBrowserExtension = Request.QueryString["browserextension"] != null;
 }
 
 <h2>Inference</h2>
@@ -16,7 +18,14 @@
 <div id="textContainer" class="hidden">@Model.Text</div>
 
 <div id="resultsContainer" style="display: none;">
-	<p>Click on a word below to show information about it or <a href="@Url.Action("Index")">analyze another piece of text</a>.</p>
+	@if (!isBrowserExtension)
+	{
+		<p>Click on a word below to show information about it or <a href="@Url.Action("Index")">analyze another piece of text</a>.</p>
+	}
+	else
+	{
+		<p>Click on a word below to show information about it.</p>
+	}
 	<div class="row">
 
 		<div id="inferredTextContainer" class="col-md-4">
