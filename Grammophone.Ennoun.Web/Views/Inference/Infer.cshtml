@@ -38,7 +38,14 @@
 </div>
 
 <div id="errorPromptContainer" class="text-danger" style="display: none">
-	<p>Unfortunately, we could not process your text. <a href="@Url.Action("Index")">Try again</a>.</p>
+	@if (!isBrowserExtension)
+	{
+		<p>Unfortunately, we could not process your text. <a href="@Url.Action("Index")">Try again</a>.</p>
+	}
+	else
+	{
+		<p>Unfortunately, we could not process your text. Please try later.</p>
+	}
 </div>
 
 @section scripts {

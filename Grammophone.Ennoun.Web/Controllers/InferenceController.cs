@@ -24,5 +24,11 @@ namespace Grammophone.Ennoun.Web.Controllers
 
 			return View("Infer", textRequest);
 		}
+
+		[HttpGet]
+		public ActionResult Tools()
+		{
+			return View();
+		}
 	}
 }

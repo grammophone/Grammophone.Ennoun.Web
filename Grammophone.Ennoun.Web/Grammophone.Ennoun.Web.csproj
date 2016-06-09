@@ -413,6 +413,7 @@
     <Content Include="Views\Inference\Infer.cshtml" />
     <Content Include="Views\Shared\_TextRequestForm.cshtml" />
     <Content Include="Views\Inference\Index.cshtml" />
+    <Content Include="Views\Inference\Tools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

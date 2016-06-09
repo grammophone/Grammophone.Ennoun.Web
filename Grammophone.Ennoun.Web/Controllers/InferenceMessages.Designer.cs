@@ -70,7 +70,7 @@ namespace Grammophone.Ennoun.Web.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The inference engine has not yet started. Please wait a few minutes until the upper right engine status turns into a green OK sign..
+        ///   Looks up a localized string similar to The inference engine has not yet started fully. Please wait a few minutes until the engine becomes ready..
         /// </summary>
         internal static string ENGINE_NOT_YET_STARTED {
             get {

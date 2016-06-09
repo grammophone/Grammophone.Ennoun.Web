@@ -121,7 +121,7 @@
     <value>There has been an error while starting the inference engine. Infernce will not be possible.</value>
   </data>
   <data name="ENGINE_NOT_YET_STARTED" xml:space="preserve">
-    <value>The inference engine has not yet started. Please wait a few minutes until the upper right engine status turns into a green OK sign.</value>
+    <value>The inference engine has not yet started fully. Please wait a few minutes until the engine becomes ready.</value>
   </data>
   <data name="SENTENCE_IMPOSSIBLE" xml:space="preserve">
     <value>This doesn't seem a greek sentence. No inference is performed.</value>
