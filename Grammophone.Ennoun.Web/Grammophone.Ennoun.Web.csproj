@@ -283,6 +283,7 @@
     <Compile Include="Controllers\TextProcessorStages\HyphenationTextProcessorStage.cs" />
     <Compile Include="Controllers\TextProcessorStages\ITextProcessorStage.cs" />
     <Compile Include="Controllers\TextProcessorStages\LineFeedRemovalStage.cs" />
+    <Compile Include="Controllers\TextProcessorStages\RhoNormalizationStage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
