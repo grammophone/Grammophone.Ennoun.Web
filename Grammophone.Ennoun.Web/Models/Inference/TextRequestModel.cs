@@ -15,7 +15,7 @@ namespace Grammophone.Ennoun.Web.Models.Inference
 		/// The input ancient Greek text, allowing a maximum of 5000 characters.
 		/// </summary>
 		[Required(ErrorMessageResourceType = typeof(TextRequestResources), ErrorMessageResourceName = "TEXT_IS_REQUIRED")]
-		[MaxLength(5000, ErrorMessageResourceType = typeof(TextRequestResources), ErrorMessageResourceName = "TEXT_TOO_LONG")]
+		[MaxLength(3000, ErrorMessageResourceType = typeof(TextRequestResources), ErrorMessageResourceName = "TEXT_TOO_LONG")]
 		public string Text { get; set; }
 
 		/// <summary>

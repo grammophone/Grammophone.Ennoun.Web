@@ -121,6 +121,6 @@
     <value>The text is required.</value>
   </data>
   <data name="TEXT_TOO_LONG" xml:space="preserve">
-    <value>The text must have at most 5000 characters.</value>
+    <value>The text must have at most 3000 characters.</value>
   </data>
 </root>

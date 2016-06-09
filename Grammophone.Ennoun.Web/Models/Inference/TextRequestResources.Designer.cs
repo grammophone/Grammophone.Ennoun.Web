@@ -70,7 +70,7 @@ namespace Grammophone.Ennoun.Web.Models.Inference {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The text must have at most 5000 characters..
+        ///   Looks up a localized string similar to The text must have at most 3000 characters..
         /// </summary>
         internal static string TEXT_TOO_LONG {
             get {
